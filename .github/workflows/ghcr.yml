@@ -5,6 +5,9 @@ on:
     tags:
       - "v*"
 
+env:
+  IMAGE_NAME: jsonsilo-api
+
 jobs:
   build-and-push-image:
     runs-on: "ubuntu-latest"
