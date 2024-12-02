@@ -29,13 +29,18 @@ jobs:
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GH_TOKEN }}
 
+      # - name: "Build and push image tags"
+      #   uses: "docker/build-push-action@v3"
+      #   with:
+      #     context: "."
+      #     platforms: "linux/amd64"
+      #     sbom: true
+      #     push: true
+      #     tags: |
+      #       "${{ github.repository }}:latest"
+      #       "${{ github.repository }}:${{ github.ref_name }}"
       - name: "Build and push image tags"
-        uses: "docker/build-push-action@v3"
-        with:
-          context: "."
-          platforms: "linux/amd64"
-          sbom: true
-          push: true
-          tags: |
-            "${{ github.repository }}:latest"
-            "${{ github.repository }}:${{ github.ref_name }}"
+        run: |
+          docker buildx build --platform linux/amd64 -t ghcr.io/${{ github.repository }}:latest -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
+          docker push ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
