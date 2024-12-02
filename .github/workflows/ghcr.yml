@@ -6,7 +6,7 @@ on:
       - "v*"
 
 env:
-  IMAGE_NAME: jsonsilo-api
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push-image:
@@ -41,6 +41,6 @@ jobs:
           # echo VERSION=$VERSION
           
           docker tag $IMAGE_NAME $IMAGE_ID:latest
-          docker tag $IMAGE_NAME $IMAGE_ID:${{ github.ref }}
+          docker tag $IMAGE_NAME $IMAGE_ID:${{ github.ref_name }}
           
           docker push image push --all-tags $IMAGE_ID
